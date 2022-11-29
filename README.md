@@ -173,7 +173,6 @@ the build environment.
 - Git
 - Ninja
 - CMake
-- Python (only needed for the web interface)
 
 Currently, only MSVC 14.29 is supported. Please make sure that you have the
 appropriate version installed.
