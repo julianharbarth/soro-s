@@ -70,7 +70,7 @@ jobs:
           
       # ==== DISTRIBUTION ====
       - name: Create Distribution
-        if: matrix.preset == 'clang-release'
+        if: matrix.config.preset == 'clang-release'
         run: |          
           mkdir -p soro-s
           mv build/clang-release/soro-server soro-s/
@@ -78,7 +78,7 @@ jobs:
           tar cjf soro-s-linux-amd64.tar.bz2 soro-s
           
       - name: Upload Distribution
-        if: matrix.preset == 'clang-release'
+        if: matrix.config.preset == 'clang-release'
         uses: actions/upload-artifact@v1
         with:
           name: soro-s-linux-amd64
@@ -86,7 +86,7 @@ jobs:
 
       # ==== RELEASE ====
       - name: Upload Release
-        if: github.event.action == 'published' && matrix.preset == 'clang-release'
+        if: github.event.action == 'published' && matrix.config.preset == 'clang-release'
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
