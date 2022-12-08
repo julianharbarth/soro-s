@@ -73,6 +73,8 @@ jobs:
         if: matrix.config.preset == 'clang-release'
         run: |          
           mkdir -p soro-s
+          rm -rf build/clang-release/server_resources/infrastructure
+          rm -rf build/clang-release/server_resources/timetable
           mv build/clang-release/soro-server soro-s/
           mv build/clang-release/server_resources soro-s/
           tar cjf soro-s-linux-amd64.tar.bz2 soro-s
