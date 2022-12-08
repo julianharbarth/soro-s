@@ -22,12 +22,6 @@ jobs:
       matrix:
         config:
           - preset: clang-release
-          - preset: clang-debug
-          - preset: gcc-release
-          - preset: gcc-debug
-          - preset: gcc-cista-debug
-          - preset: clang-tidy
-          - preset: clang-sanitizer
 
     env:
       BUILDCACHE_DIR: /buildcache
@@ -132,6 +126,9 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=edge
+            
+      - name: Debug
+        run: ls -lha .
             
       - name: Docker build and push
         uses: docker/build-push-action@v3
