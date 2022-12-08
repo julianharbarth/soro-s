@@ -51,9 +51,14 @@ target_link_libraries(soro-server-lib PUBLIC
 
 add_executable(soro-server EXCLUDE_FROM_ALL src/server.cc)
 
-target_compile_options(soro-server PRIVATE ${TILES_WARNINGS})
-target_compile_definitions(soro-server PRIVATE ${SORO_COMPILE_DEFINITIONS})
-target_compile_features(soro-server PRIVATE ${SORO_COMPILE_FEATURES})
+if (MSVC)
+    target_compile_options(soro-server PUBLIC ${TILES_WARNINGS} "/std:c++20")
+else()
+    target_compile_options(soro-server PUBLIC ${TILES_WARNINGS})
+endif()
+
+target_compile_definitions(soro-server PUBLIC ${SORO_COMPILE_DEFINITIONS})
+target_compile_features(soro-server PUBLIC ${SORO_COMPILE_FEATURES})
 
 target_link_libraries(soro-server PUBLIC soro-server-lib)
 
