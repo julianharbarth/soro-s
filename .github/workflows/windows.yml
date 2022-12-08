@@ -49,3 +49,50 @@ jobs:
       # ==== TESTS ====
       - name: Run Tests
         run: .\build\${{ matrix.config.preset }}\soro-test.exe
+        
+      # === BUILD SERVER ===
+      - name: Build Server
+        run: |
+          cmake --build build\${{ matrix.config.preset }} --target soro-server-client
+        
+      # ==== DISTRIBUTION ====
+      - name: Move Profiles
+        if: matrix.preset == 'msvc-release'
+        run: |
+          Copy-Item .\deps\osrm-backend\profiles .\osrm-profiles -Recurse
+          Copy-Item .\deps\ppr\profiles .\ppr-profiles -Recurse
+          Copy-Item .\deps\tiles\profile .\tiles-profiles -Recurse
+          
+      - name: Move Web UI
+        if: matrix.config.mode == 'Release'
+        run: |
+          mkdir web
+          Copy-Item .\ui\web\external_lib,.\ui\web\img,.\ui\web\js,.\ui\web\style .\web\ -Recurse
+          Copy-Item .\ui\web\*.html,.\ui\web\*.js,.\ui\web\*.ico .\web\
+          Copy-Item .\ui\rsl\dist .\web\rsl -Recurse
+          
+      - name: Create Distribution
+        if: matrix.preset == 'msvc-release'
+        run: >
+          7z a soro-s-windows.zip
+          .\build\msvc-release\soro-server.exe
+          .\build\msvc-release\server_resources
+
+      - name: Upload Distribution
+        if: matrix.preset == 'msvc-release'
+        uses: actions/upload-artifact@v1
+        with:
+          name: soro-s-windows
+          path: soro-s-windows.zip
+
+      # ==== RELEASE ====
+      - name: Upload Release
+        if: github.event.action == 'published' && matrix.config.mode == 'Release'
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./soro-s-windows.zip
+          asset_name: soro-s-windows.zip
+          asset_content_type: application/zip
