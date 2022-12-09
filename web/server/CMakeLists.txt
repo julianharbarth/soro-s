@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.18)
 project(soro)
 
 if (MSVC)
-    set(TILES_WARNINGS "/W4")
+    set(TILES_WARNINGS "/W4" "/MT")
 else ()
-    set(TILES_WARNINGS "-Wall" "-Wextra")
+    set(TILES_WARNINGS "-Wall" "-Wextra" "-static")
 endif ()
 
 file(GLOB_RECURSE soro-server-files src/*.cc)
