@@ -87,6 +87,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             -Wno-missing-noreturn
             -Wno-deprecated-experimental-coroutine
             -Werror
+            -static
             )
 
     if (CMAKE_CXX_COMPILER_VERSION GREATER_EQUAL 13)
@@ -101,6 +102,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 elseif (MSVC)
     set(SORO_COMPILE_OPTIONS ${SORO_COMPILE_OPTIONS}
             /WX
+            /MT
             )
 else ()
     set(SORO_COMPILE_OPTIONS ${SORO_COMPILE_OPTIONS}
@@ -108,6 +110,7 @@ else ()
             -Wextra
             -Werror
             -fcoroutines
+            -static
             )
 endif ()
 
