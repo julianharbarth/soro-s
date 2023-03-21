@@ -32,7 +32,8 @@ jobs:
           - preset: clang-cista-release
           - preset: clang-tidy
           - preset: clang-sanitizer
-          - preset: clang-cista-tidy-sanitizer
+          - preset: clang-cista-tidy
+          - preset: clang-cista-sanitizer
     env:
       BUILDCACHE_DIR: /buildcache
       BUILDCACHE_DIRECT_MODE: true
