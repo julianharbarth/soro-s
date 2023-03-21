@@ -113,7 +113,7 @@ jobs:
   docker:
     if: github.event.action == 'published'
     runs-on: ubuntu-22.04
-    needs: [ ui-tests, linux ]
+    needs: [ ui-tests, linux, clang-tidy ]
 
     steps:
       - name: create and upload docker image
