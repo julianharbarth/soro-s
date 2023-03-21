@@ -28,8 +28,10 @@ jobs:
       BUILDCACHE_LUA_PATH: ${{ github.workspace }}/tools
 
     steps:
-      - use: actions/checkout@v3
+      - name: checkout repository
+        uses: actions/checkout@v3
 
-      - uses: ./.github/actions/linux-build
+      - name: build soro-s with clang-tidy
+        uses: ./.github/actions/linux-build
         with:
           preset: clang-tidy
