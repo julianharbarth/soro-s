@@ -1,0 +1,26 @@
+name: soro-s tests
+description: execute soro-s tests
+
+inputs:
+  soro-s-tests:
+    description: 'Run soro-s tests'
+    default: true
+  soro-server-tests:
+    description: 'Run soro-server tests'
+    default: true
+  ui-tests:
+    description: 'Run UI tests'
+    default: true
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: run soro-s tests
+      shell: bash
+      run: ./build/${{ matrix.config.preset }}/soro-test
+
+    - name: run soro-server in test mode
+      shell: bash
+      run: ./build/${{ matrix.config.preset }}/soro-server -t --resource_dir ./resources
+

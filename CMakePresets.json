@@ -251,6 +251,30 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "SERIALIZE": "On"
       }
+    },
+    {
+      "name": "msvc-cista-debug",
+      "displayName": "Windows AMD64 MSVC CISTA Debug",
+      "inherits": [
+        "base-preset",
+        "msvc-preset"
+      ],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "SERIALIZE": "On"
+      }
+    },
+    {
+      "name": "msvc-cista-release",
+      "displayName": "Windows AMD64 MSVC CISTA Release",
+      "inherits": [
+        "base-preset",
+        "msvc-preset"
+      ],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "SERIALIZE": "On"
+      }
     }
   ]
 }
