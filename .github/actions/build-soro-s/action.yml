@@ -1,10 +1,12 @@
 name: 'Build SORO-S'
 description: 'Builds SORO-S for Linux'
+
 inputs:
   preset:
     description: 'CMake preset to use'
     required: true
 runs:
+  using: 'composite'
   steps:
     - uses: actions/checkout@v3
 
