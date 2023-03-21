@@ -12,10 +12,12 @@ runs:
 
     # ==== CMAKE ====
     - name: Generate CMake
+      shell: bash
       run: cmake --preset=${{ matrix.config.preset }}
 
     # ==== BUILD ====
     - name: Build soro-test
+      shell: bash
       run: |
         buildcache -z
         cmake --build build/${{ matrix.config.preset }} --target soro-test
@@ -23,6 +25,7 @@ runs:
 
     # ==== WEB BUILD ====
     - name: Build soro-server
+      shell: bash
       run: |
         buildcache -z
         cmake --build build/${{ matrix.config.preset }} --target soro-server
