@@ -27,11 +27,11 @@ runs:
   using: 'composite'
 
   steps:
-    - uses: actions/checkout@v3
-
     - name: run soro-s tests
       shell: bash
-      run: ./build/${{ matrix.config.preset }}/soro-test
+      run: |
+        echo $(pwd)
+        ./build/${{ matrix.config.preset }}/soro-test
 
     - name: run soro-server in test mode
       shell: bash
