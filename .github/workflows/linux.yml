@@ -30,8 +30,9 @@ jobs:
           - preset: gcc-cista-release
           - preset: clang-cista-debug
           - preset: clang-cista-release
+          - preset: clang-tidy
           - preset: clang-sanitizer
-          - preset: clang-cista-sanitizer
+          - preset: clang-cista-tidy-sanitizer
     env:
       BUILDCACHE_DIR: /buildcache
       BUILDCACHE_DIRECT_MODE: true
@@ -57,63 +58,10 @@ jobs:
           preset: ${{ matrix.config.preset }}
           artifact: ${{ matrix.config.artifact }}
 
-  ui-tests:
-    needs: linux
-    runs-on: ubuntu-latest
-    services:
-      selenium-hub:
-        image: selenium/hub:4.7.2-20221219
-        ports:
-          - 4442:4442
-          - 4443:4443
-          - 4444:4444
-      chrome:
-        image: selenium/node-chrome:4.7.2-20221219
-        options: --shm-size="2g" --add-host host.docker.internal:host-gateway
-        env:
-          SE_EVENT_BUS_HOST: selenium-hub
-          SE_EVENT_BUS_PUBLISH_PORT: 4442
-          SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
-      firefox:
-        image: selenium/node-firefox:4.7.2-20221219
-        options: --shm-size="2g" --add-host host.docker.internal:host-gateway
-        env:
-          SE_EVENT_BUS_HOST: selenium-hub
-          SE_EVENT_BUS_PUBLISH_PORT: 4442
-          SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v3
-
-      - name: cache python dependencies
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-          cache: 'pip'
-
-      - name: install python dependencies
-        run: pip install -r ui-test/requirements.txt
-
-      - name: download soro-s artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: soro-server
-
-      - name: prepare soro-server
-        run: chmod +x soro-server
-
-        # TODO(julian) remove?
-      - name: check hostname
-        run: hostname
-
-      - name: run ui tests
-        run: |
-          find web/client/ui-test -type f -executable -name '*.py' -print0 | xargs -0 -n1 python3
-
   docker:
     if: github.event.action == 'published'
     runs-on: ubuntu-22.04
-    needs: [ ui-tests, linux, clang-tidy ]
+    needs: [ linux ]
 
     steps:
       - name: create and upload docker image

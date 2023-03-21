@@ -216,7 +216,7 @@
       }
     },
     {
-      "name": "clang-cista-sanitizer",
+      "name": "clang-cista-tidy-sanitizer",
       "displayName": "Linux AMD64 Clang CISTA Sanitizer",
       "inherits": [
         "base-preset",

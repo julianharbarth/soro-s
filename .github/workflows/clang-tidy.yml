@@ -1,6 +1,5 @@
 name: clang-tidy build
 
-# seperate workflow for clang-tidy, cause it takes a long time
 
 on:
   push:

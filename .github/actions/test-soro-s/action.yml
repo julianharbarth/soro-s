@@ -1,18 +1,31 @@
 name: soro-s tests
 description: execute soro-s tests
 
-inputs:
-  soro-s-tests:
-    description: 'Run soro-s tests'
-    default: true
-  soro-server-tests:
-    description: 'Run soro-server tests'
-    default: true
-  ui-tests:
-    description: 'Run UI tests'
-    default: true
+#services:
+#  selenium-hub:
+#    image: selenium/hub:4.7.2-20221219
+#    ports:
+#      - 4442:4442
+#      - 4443:4443
+#      - 4444:4444
+#  chrome:
+#    image: selenium/node-chrome:4.7.2-20221219
+#    options: --shm-size="2g" --add-host host.docker.internal:host-gateway
+#    env:
+#      SE_EVENT_BUS_HOST: selenium-hub
+#      SE_EVENT_BUS_PUBLISH_PORT: 4442
+#      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+#  firefox:
+#    image: selenium/node-firefox:4.7.2-20221219
+#    options: --shm-size="2g" --add-host host.docker.internal:host-gateway
+#    env:
+#      SE_EVENT_BUS_HOST: selenium-hub
+#      SE_EVENT_BUS_PUBLISH_PORT: 4442
+#      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+
 runs:
   using: 'composite'
+
   steps:
     - uses: actions/checkout@v3
 
@@ -24,3 +37,32 @@ runs:
       shell: bash
       run: ./build/${{ matrix.config.preset }}/soro-server -t --resource_dir ./resources
 
+    - name: start up the demonized selenium docker containers
+      shell: bash
+      run: docker-compose up -f web/client/ui-test -d
+
+    - name: cache python dependencies
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip'
+
+    - name: install python dependencies
+      shell: bash
+      run: pip install -r web/client/ui-test/requirements.txt
+
+      #    - name: download soro-s artifact
+      #      uses: actions/download-artifact@v3
+      #      with:
+      #        name: soro-server
+
+      #    - name: prepare soro-server
+      #      run: chmod +x soro-server
+
+    #       TODO(julian) remove?
+    #    - name: check hostname
+    #      run: hostname
+
+    - name: run ui tests
+      shell: bash
+      run: find web/client/ui-test -type f -executable -name '*.py' -print0 | xargs -0 -n1 python3
