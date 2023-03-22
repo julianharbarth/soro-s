@@ -41,16 +41,17 @@ jobs:
       BUILDCACHE_LUA_PATH: ${{ github.workspace }}/tools
 
     steps:
+      # we need to checkout the repository to get the actions
       - name: checkout repository
         uses: actions/checkout@v3
 
       - name: build soro-s
-        uses: ./.github/actions/build-soro-s
+        uses: ./.github/actions/build
         with:
           preset: ${{ matrix.config.preset }}
 
       - name: test soro-s
-        uses: ./.github/actions/test-soro-s
+        uses: ./.github/actions/test
 
       - name: create and upload artifact
         if: matrix.config.artifact
@@ -66,4 +67,4 @@ jobs:
 
     steps:
       - name: create and upload docker image
-        uses: ./.github/actions/soro-s-docker
+        uses: ./.github/actions/create-docker
