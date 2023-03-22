@@ -59,6 +59,7 @@ jobs:
         with:
           preset: ${{ matrix.config.preset }}
           artifact: ${{ matrix.config.artifact }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   docker:
     if: github.event.action == 'published'
@@ -68,3 +69,5 @@ jobs:
     steps:
       - name: create and upload docker image
         uses: ./.github/actions/create-docker
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,11 @@
 name: upload soro-s docker image
 description: 'uploads soro-s docker image to github container registry'
 
+inputs:
+  github_token:
+    description: 'secrets github token'
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -17,9 +22,9 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.github_token }}
 
-    - name: mocker meta
+    - name: docker meta data
       id: meta
       uses: docker/metadata-action@v4
       with:

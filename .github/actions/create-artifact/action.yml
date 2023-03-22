@@ -8,6 +8,10 @@ inputs:
   artifact:
     description: 'name of the artifact to create'
     required: true
+  github_token:
+    description: 'secrets github token'
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -29,7 +33,7 @@ runs:
       if: github.event.action == 'published'
       uses: actions/upload-release-asset@v1.0.2
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ input.github_token }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ./soro-s-${{ inputs.artifact }}.tar.bz2
