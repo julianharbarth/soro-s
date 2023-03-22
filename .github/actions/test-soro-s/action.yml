@@ -30,12 +30,16 @@ runs:
     - name: run soro-s tests
       shell: bash
       run: |
-        echo $(pwd)
-        ./build/${{ matrix.config.preset }}/soro-test
+        cd ./build/${{ matrix.config.preset }}
+        ./soro-test
+        cd ../../
 
     - name: run soro-server in test mode
       shell: bash
-      run: ./build/${{ matrix.config.preset }}/soro-server -t --resource_dir ./resources
+      run: |
+        cd ./build/${{ matrix.config.preset }}
+        ./soro-server -t 
+        cd ../../
 
     - name: start up the demonized selenium docker containers
       shell: bash
