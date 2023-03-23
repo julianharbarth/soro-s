@@ -53,7 +53,7 @@ void compare_train_path_elements_with_ir_elements(train const& t,
   std::set<node::id> train_path_elements;
   std::set<node::id> interlocking_route;
 
-  for (auto tn : t.iterate(infra)) {
+  for (auto const& tn : t.iterate(infra)) {
     train_path_elements.insert(tn.node_->id_);
   }
 

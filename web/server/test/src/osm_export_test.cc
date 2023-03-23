@@ -99,7 +99,7 @@ void check_ways(auto const& element, auto const& ids, auto neighbours,
                 auto const& element_to_station) {
   CHECK(ids.contains(element->id()));
   auto id = ids.at(element->id());
-  for (auto neighbour : neighbours) {
+  for (auto const& neighbour : neighbours) {
     if (neighbour != nullptr && element_to_station.at(element->id()) ==
                                     element_to_station.at(neighbour->id())) {
       CHECK(std::find(id.begin(), id.end(), neighbour->id()) != id.end());
