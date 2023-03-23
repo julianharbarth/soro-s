@@ -12,9 +12,6 @@
 #include "soro/infrastructure/path/is_path.h"
 #include "soro/infrastructure/path/length.h"
 
-using namespace soro;
-using namespace infra;
-
 namespace soro::infra::test {
 
 void sections_are_paths(section const& sec) {

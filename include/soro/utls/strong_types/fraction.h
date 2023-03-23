@@ -279,7 +279,7 @@ inline std::string get_tag_symbol() {
   }
 }
 
-const std::array<std::string, 11> exponent_symbols{"",  "",  "²", "³", "⁴",
+std::vector<std::string> const exponent_symbols = {"",  "",  "²", "³", "⁴",
                                                    "⁵", "⁶", "⁷", "⁸", "⁹"};
 
 template <typename TypeList>

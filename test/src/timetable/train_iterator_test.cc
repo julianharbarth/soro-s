@@ -7,8 +7,6 @@
 
 #include <set>
 
-using namespace soro;
-using namespace soro::tt;
 using namespace soro::infra;
 
 namespace soro::tt::test {
